@@ -68,7 +68,7 @@
                         </goals>
                         <configuration>
                             <executable>${java.home}/bin/java</executable>
-                            <commandlineArgs>${runfx.args}</commandlineArgs>
+
                         </configuration>
                     </execution>
                 </executions>  
@@ -81,7 +81,7 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <compilerArguments>
-                        <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
+
                     </compilerArguments>
                 </configuration>
             </plugin>
