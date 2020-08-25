@@ -298,6 +298,7 @@ public class MainController {
                 Repository.getInstance().readDBFromFile(file);
                 cmbUsers.getSelectionModel().selectFirst();
                 cmbProjects.getSelectionModel().selectFirst();
+                this.file=file;
                 onFindAction();
             }
 

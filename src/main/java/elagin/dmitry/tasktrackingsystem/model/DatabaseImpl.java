@@ -54,32 +54,38 @@ public class DatabaseImpl implements Database, Serializable {
 
     @Override
     public void saveToFile(File file) throws IOException {
-        DBSaver saver=new DBSaver();
-        saver.setProjectId(projectId);
-        saver.setUserId(userId);
-        saver.setTaskId(taskId);
-        saver.setProjects(projects.toArray(new Project[0]));
-        saver.setTasks(tasks.toArray(new Task[0]));
-        saver.setUsers(users.toArray(new User[0]));
-        ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(file));
-        outputStream.writeObject(saver);
-        outputStream.close();
+        try(ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(file))) {
+            DBSaver saver=new DBSaver();
+            saver.setProjectId(projectId);
+            saver.setUserId(userId);
+            saver.setTaskId(taskId);
+            saver.setProjects(projects.toArray(new Project[0]));
+            saver.setTasks(tasks.toArray(new Task[0]));
+            saver.setUsers(users.toArray(new User[0]));
+            outputStream.writeObject(saver);
+        }
+
+
+
     }
 
     @Override
     public void readFromFile(File file) throws Exception {
-        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream(file));
-        DBSaver saver= (DBSaver) inputStream.readObject();
-        inputStream.close();
-        projectId=saver.getProjectId();
-        taskId=saver.getTaskId();
-        userId=saver.getUserId();
-        projects.clear();
-        projects.addAll(saver.getProjects());
-        users.clear();
-        users.addAll(saver.getUsers());
-        tasks.clear();
-        tasks.addAll(saver.getTasks());
+        try(ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream(file))) {
+            DBSaver saver= (DBSaver) inputStream.readObject();
+            projectId=saver.getProjectId();
+            taskId=saver.getTaskId();
+            userId=saver.getUserId();
+            projects.clear();
+            projects.addAll(saver.getProjects());
+            users.clear();
+            users.addAll(saver.getUsers());
+            tasks.clear();
+            tasks.addAll(saver.getTasks());
+        }
+
+
+
 
 
 
