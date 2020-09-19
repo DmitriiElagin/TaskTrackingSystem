@@ -20,8 +20,6 @@ import java.util.Optional;
 public class MainController {
 
 
-
-
     @FXML
     private Button btnAdd, btnEdit, btnDel, btnFind;
     @FXML
@@ -84,7 +82,7 @@ public class MainController {
 
     public void initUI() {
 
-       ToggleGroup toggleGroup = new ToggleGroup();
+        ToggleGroup toggleGroup = new ToggleGroup();
         rbAll.setToggleGroup(toggleGroup);
         rbProject.setToggleGroup(toggleGroup);
         rbUser.setToggleGroup(toggleGroup);
@@ -227,9 +225,17 @@ public class MainController {
         if (tabProjects.isSelected()) {
             Project project = tableProjects.getSelectionModel().getSelectedItem();
             if (project != null) {
-                if (showDeleteDialog()) {
-                    Repository.getInstance().deleteProject(project);
-                    onFindAction();
+                ObservableList<Task> tasks = Repository.getInstance().findProjectTasks(project.getId());
+
+                if (!tasks.isEmpty()) {
+                    showDialog("Delete project", "Project cannot be deleted", Alert.AlertType.WARNING,
+                            "Can't delete project referenced by tasks!");
+                } else {
+                    if (showDeleteDialog()) {
+                        Repository.getInstance().deleteProject(project);
+                        cmbProjects.getSelectionModel().selectFirst();
+                        onFindAction();
+                    }
                 }
             }
         }
@@ -238,10 +244,18 @@ public class MainController {
             User user = tableUsers.getSelectionModel().getSelectedItem();
 
             if (user != null) {
-                if (showDeleteDialog()) {
-                    Repository.getInstance().deleteUser(user);
-                    onFindAction();
+                ObservableList<Task> tasks = Repository.getInstance().findUserTasks(user.getId());
+                if (!tasks.isEmpty()) {
+                    showDialog("Delete user", "User cannot be deleted", Alert.AlertType.WARNING,
+                            "Can't remove user referenced by tasks!");
+                } else {
+                    if (showDeleteDialog()) {
+                        Repository.getInstance().deleteUser(user);
+                        cmbUsers.getSelectionModel().selectFirst();
+                        onFindAction();
+                    }
                 }
+
             }
         }
 
@@ -298,7 +312,7 @@ public class MainController {
                 Repository.getInstance().readDBFromFile(file);
                 cmbUsers.getSelectionModel().selectFirst();
                 cmbProjects.getSelectionModel().selectFirst();
-                this.file=file;
+                this.file = file;
                 onFindAction();
             }
 
@@ -321,8 +335,7 @@ public class MainController {
         if (save) {
             chooser.setTitle("Save As");
             file = chooser.showSaveDialog(window);
-        }
-        else {
+        } else {
             chooser.setTitle("Open file");
             file = chooser.showOpenDialog(window);
         }
