@@ -6,39 +6,29 @@ import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 
-
-public class UserController implements DialogController<User> {
-
+public class UserController extends DialogController<User> {
 
 
     @FXML
     private TextField tfFName, tfLName;
 
 
+    @FXML
+    private Button btnSave;
+
 
     @FXML
-    private Button btnSave, btnCancel;
+    public void initialize() {
+        InvalidationListener listener = observable ->
+                btnSave.setDisable((tfFName.getText().isEmpty() || tfLName.getText().isEmpty()));
+        tfFName.textProperty().addListener(listener);
+        tfLName.textProperty().addListener(listener);
 
-    private User user;
-
-    private  boolean result;
-
-  @FXML
-  public void initialize() {
-      InvalidationListener listener= observable ->
-              btnSave.setDisable((tfFName.getText().isEmpty()||tfLName.getText().isEmpty()));
-      tfFName.textProperty().addListener(listener);
-      tfLName.textProperty().addListener(listener);
-
-  }
-
-  public void setUser(User user) {
-        this.user = user;
-        tfFName.setText(user.getFirstName());
-        tfLName.setText(user.getLastName());
     }
+
 
     public boolean getResult() {
         return result;
@@ -47,40 +37,30 @@ public class UserController implements DialogController<User> {
     @FXML
     @Override
     public void onSaveAction() {
-        user.setFirstName(tfFName.getText());
-        user.setLastName(tfLName.getText());
-        Repository.getInstance().saveUser(user);
-        setResult(true);
+        model.setFirstName(tfFName.getText());
+        model.setLastName(tfLName.getText());
+        Repository.getInstance().saveUser(model);
+        result=false;
         closeWindow();
+    }
+
+    private void closeWindow() {
+        ((Stage) btnSave.getScene().getWindow()).close();
     }
 
     @FXML
     @Override
     public void onCancelAction() {
-        setResult(false);
+        result=false;
         closeWindow();
-    }
-
-    public void setResult(boolean result) {
-        this.result = result;
-    }
-
-
-
-
-    @Override
-    public Button getOKButton() {
-        return btnSave;
-    }
-
-    @Override
-    public Button getCancelButton() {
-        return null;
     }
 
 
     @Override
     public void setModel(User model) {
-        setUser(model);
+        this.model=model;
+        tfFName.setText(model.getFirstName());
+        tfLName.setText(model.getLastName());
+
     }
 }
