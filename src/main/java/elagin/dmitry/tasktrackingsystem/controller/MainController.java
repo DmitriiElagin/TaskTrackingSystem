@@ -75,7 +75,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        Repository.getInstance().setDatabase(DatabaseImpl.getInstance());
+        Repository.getInstance().setDataSource(DataSourceImpl.getInstance());
         projects = Repository.getInstance().findAllProjects();
         users = Repository.getInstance().findAllUsers();
         tasks = FXCollections.observableArrayList(new ArrayList<>());
@@ -314,7 +314,7 @@ public class MainController {
         try {
             file = getFile(false);
             if (file != null) {
-                Repository.getInstance().readDBFromFile(file);
+                Repository.getInstance().readDataFromFile(file);
                 cmbUsers.getSelectionModel().selectFirst();
                 cmbProjects.getSelectionModel().selectFirst();
                 this.file = file;
@@ -364,7 +364,7 @@ public class MainController {
 
         if (file != null) {
             try {
-                Repository.getInstance().saveDBToFile(file);
+                Repository.getInstance().saveDataToFile(file);
             } catch (Exception e) {
                 showDialog("File write error", "Unable to save file due to I / O error!", Alert.AlertType.ERROR, file.getPath());
                 e.printStackTrace();

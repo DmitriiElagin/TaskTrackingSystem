@@ -9,10 +9,14 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ *Creates a data source that uses <b>ArrayList</b> to store entities. Provides data access objects.
+ * Implements interface {@link DataSource}
+ * @author Dmitry Elagin
+ */
+public class DataSourceImpl implements DataSource {
 
-public class DatabaseImpl implements Database, Serializable {
-
-    private static DatabaseImpl instance;
+    private static DataSourceImpl instance;
 
     private final ObservableList<User> users;
     private final ObservableList<Project> projects;
@@ -22,15 +26,15 @@ public class DatabaseImpl implements Database, Serializable {
     private int userId;
     private int projectId;
 
-    private DatabaseImpl() {
+    private DataSourceImpl() {
         projects= FXCollections.observableList(new ArrayList<>());
         users=FXCollections.observableList(new ArrayList<>());
         tasks=FXCollections.observableList(new ArrayList<>());
     }
 
-    public static DatabaseImpl getInstance() {
+    public static DataSourceImpl getInstance() {
         if(instance==null) {
-            instance=new DatabaseImpl();
+            instance=new DataSourceImpl();
         }
 
         return instance;

@@ -22,6 +22,7 @@ public interface ProjectDAO {
      * @return {@link Project} object, if a project with the specified id was found, null otherwise
      */
     Project getProjectById(int id);
+
     /**
      * Saves a project to the data source
      * @param project {@link Project} object to be saved to the data source

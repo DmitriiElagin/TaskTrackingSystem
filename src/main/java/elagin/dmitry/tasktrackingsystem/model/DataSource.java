@@ -12,7 +12,7 @@ import java.io.File;
  * Provides methods for reading and writing data source data to a file
  * @author Dmitry Elagin
  */
-public interface Database {
+public interface DataSource {
 
     /**
      *Returns a data access object for  {@link Project}
