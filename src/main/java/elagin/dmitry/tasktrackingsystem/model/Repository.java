@@ -1,10 +1,9 @@
 package elagin.dmitry.tasktrackingsystem.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import javafx.collections.ObservableList;
 import java.io.File;
-import java.util.ArrayList;
+
 
 public class Repository {
 
@@ -13,12 +12,9 @@ public class Repository {
     private static Repository instance;
     private Database database;
 
-    private final ObservableList<Project> projects;
+
 
     private Repository () {
-
-        projects= FXCollections.observableList(new ArrayList<>());
-
     }
 
     public static Repository getInstance() {

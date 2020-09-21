@@ -16,7 +16,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
-
+        /**
+        * Controller class for the main application window
+        * @author Dmitry Elagin
+        */
 public class MainController {
 
 

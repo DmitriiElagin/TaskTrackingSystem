@@ -1,7 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.dao;
 
 import elagin.dmitry.tasktrackingsystem.model.Project;
-import elagin.dmitry.tasktrackingsystem.model.User;
 import javafx.collections.ObservableList;
 
 

@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Creates a save user dialog controller.
+ * Controller class for the save user dialog
  * @author Dmitry Elagin
  * @see elagin.dmitry.tasktrackingsystem.controller.DialogController
  */

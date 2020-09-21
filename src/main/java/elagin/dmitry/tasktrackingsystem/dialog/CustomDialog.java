@@ -4,11 +4,8 @@ import elagin.dmitry.tasktrackingsystem.controller.DialogController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 
 /**

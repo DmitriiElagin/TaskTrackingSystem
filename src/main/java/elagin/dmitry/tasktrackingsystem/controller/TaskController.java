@@ -15,9 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Creates a save task dialog controller.
+ * Controller class for the save task dialog
  * @author Dmitry Elagin
- * @see elagin.dmitry.tasktrackingsystem.controller.DialogController
+ * @see DialogController
  */
 public class TaskController extends DialogController<Task> {
 
