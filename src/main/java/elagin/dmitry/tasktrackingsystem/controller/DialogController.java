@@ -4,8 +4,8 @@ package elagin.dmitry.tasktrackingsystem.controller;
 
 
 /**
+ Base class for controllers used in CustomDialog
  *@author Dmitry Elagin
- *Base class for controllers used in CustomDialog
  * @param <T> class of  object that will be used as the controller data model
  */
 public abstract class DialogController<T> {
@@ -33,12 +33,12 @@ public abstract class DialogController<T> {
     /**
      * event handler for positive action
      */
-   abstract void onSaveAction();
+  protected abstract void onSaveAction();
 
     /**
      * event handler for cancel action
      */
-  abstract void onCancelAction();
+  protected abstract void onCancelAction();
 
 
 

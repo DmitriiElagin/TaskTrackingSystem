@@ -80,7 +80,7 @@ public class MainController {
     }
 
 
-    public void initUI() {
+    private void initUI() {
 
         ToggleGroup toggleGroup = new ToggleGroup();
         rbAll.setToggleGroup(toggleGroup);
@@ -186,6 +186,26 @@ public class MainController {
         }
     }
 
+    private void showProjectDialog(Project project) {
+        TextInputDialog dialog = new TextInputDialog(project.getTitle());
+        dialog.setTitle("Save project");
+
+        dialog.setHeaderText("Enter project title:");
+        dialog.setContentText("Title:");
+        Button btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        TextField editor = dialog.getEditor();
+        editor.textProperty().addListener(observable -> btnOk.setDisable(editor.getText().isEmpty()));
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            project.setTitle(result.get());
+            Repository.getInstance().saveProject(project);
+            cmbProjects.getSelectionModel().selectLast();
+
+            onFindAction();
+        }
+
+    }
+
     private void showTaskDialog(Task task) {
         CustomDialog dialog = new CustomDialog(task, 375, 400, "/fxml/task.fxml", "Save Task");
         if (dialog.show()) {
@@ -255,7 +275,6 @@ public class MainController {
                         onFindAction();
                     }
                 }
-
             }
         }
 
@@ -281,27 +300,10 @@ public class MainController {
 
     }
 
-    private void showProjectDialog(Project project) {
-        TextInputDialog dialog = new TextInputDialog(project.getTitle());
-        dialog.setTitle("Save project");
-
-        dialog.setHeaderText("Enter project title:");
-        dialog.setContentText("Title:");
-        Button btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        TextField editor = dialog.getEditor();
-        editor.textProperty().addListener(observable -> btnOk.setDisable(editor.getText().isEmpty()));
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            project.setTitle(result.get());
-            Repository.getInstance().saveProject(project);
-            cmbProjects.getSelectionModel().selectLast();
-
-            onFindAction();
-        }
-
-    }
 
 
+
+    @FXML
     public void onOpenAction() {
 
         File file = null;
@@ -343,6 +345,7 @@ public class MainController {
         return file;
     }
 
+    @FXML
     public void onSaveAsAction(ActionEvent event) {
         File file = getFile(true);
 
@@ -353,6 +356,7 @@ public class MainController {
     }
 
 
+    @FXML
     public void onSaveAction(ActionEvent event) {
 
         if (file != null) {
@@ -367,6 +371,7 @@ public class MainController {
         }
     }
 
+    @FXML
     public void onExitAction() {
         System.exit(0);
     }

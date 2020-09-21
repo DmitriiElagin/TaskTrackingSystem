@@ -8,7 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+/**
+ * Creates a save user dialog controller.
+ * @author Dmitry Elagin
+ * @see elagin.dmitry.tasktrackingsystem.controller.DialogController
+ */
 public class UserController extends DialogController<User> {
 
 
@@ -40,7 +44,7 @@ public class UserController extends DialogController<User> {
         model.setFirstName(tfFName.getText());
         model.setLastName(tfLName.getText());
         Repository.getInstance().saveUser(model);
-        result=false;
+        result=true;
         closeWindow();
     }
 

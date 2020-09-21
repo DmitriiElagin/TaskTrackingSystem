@@ -12,8 +12,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
+ * Creates and displays a custom dialog using any data model class
  * @author Dmitry Elagin
- * Сreates and displays a custom dialog using any data model class
  * @param <T> - class of object to be used as the dialog data model
  */
 public class CustomDialog<T> {

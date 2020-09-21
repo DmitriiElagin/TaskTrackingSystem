@@ -14,7 +14,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+/**
+ * Creates a save task dialog controller.
+ * @author Dmitry Elagin
+ * @see elagin.dmitry.tasktrackingsystem.controller.DialogController
+ */
 public class TaskController extends DialogController<Task> {
 
 
@@ -39,9 +43,7 @@ public class TaskController extends DialogController<Task> {
     private ObservableList<Project> projects;
     private ObservableList<User> users;
 
-    public void setResult(boolean result) {
-        this.result = result;
-    }
+
 
     @FXML
     public void initialize() {
@@ -70,6 +72,7 @@ public class TaskController extends DialogController<Task> {
     }
 
     @FXML
+    @Override
     public void onSaveAction() {
 
         model.setType(tfType.getText());
@@ -80,14 +83,14 @@ public class TaskController extends DialogController<Task> {
         model.setProject(cbProject.getValue());
 
         Repository.getInstance().saveTask(model);
-        setResult(true);
+        result=true;
         closeWindow();
     }
 
     @FXML
     @Override
     public void onCancelAction() {
-        setResult(false);
+        result=false;
         closeWindow();
 
     }
