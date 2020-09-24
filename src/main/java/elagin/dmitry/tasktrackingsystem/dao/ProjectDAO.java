@@ -36,4 +36,5 @@ public interface ProjectDAO {
     void delete(Project project);
 
 
+    void saveAll(Project[] projects);
 }

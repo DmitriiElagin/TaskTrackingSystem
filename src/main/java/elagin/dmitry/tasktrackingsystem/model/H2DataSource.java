@@ -69,7 +69,7 @@ private final ObservableList<User> users;
     public void saveToFile(File file) throws IOException {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
             DBSaver saver = new DBSaver();
-            ObservableList<Task> tasks = getTaskDAO().findAllTasks();
+            ObservableList<Task> tasks = getTaskDAO().getAllTasks();
 
             saver.setProjects(projects.toArray(new Project[0]));
             saver.setTasks(tasks.toArray(new Task[0]));
@@ -88,7 +88,7 @@ private final ObservableList<User> users;
                 getProjectDAO().saveAll(saver.getProjects());
                 getTaskDAO().saveAll(saver.getTasks());
 
-                getProjectDAO().findAllProjects();
+                getProjectDAO().getAllProjects();
                 getUserDAO().getAllUsers();
 
             }
@@ -98,7 +98,7 @@ private final ObservableList<User> users;
     private class H2ProjectDAO implements ProjectDAO {
 
         @Override
-        public ObservableList<Project> findAllProjects() {
+        public ObservableList<Project> getAllProjects() {
 
             try(Session session = factory.getCurrentSession()) {
                session.beginTransaction();
@@ -111,7 +111,7 @@ private final ObservableList<User> users;
         }
 
         @Override
-        public Project findProjectById(int id) {
+        public Project getProjectById(int id) {
 
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -129,7 +129,7 @@ private final ObservableList<User> users;
                 session.saveOrUpdate(project);
                 session.getTransaction().commit();
             }
-           findAllProjects();
+           getAllProjects();
 
         }
 
@@ -140,9 +140,10 @@ private final ObservableList<User> users;
                 session.delete(project);
                 session.getTransaction().commit();
             }
-            findAllProjects();
+            getAllProjects();
 
         }
+
 
         @Override
         public void saveAll(Project[] projects) {
@@ -174,7 +175,7 @@ private final ObservableList<User> users;
         }
 
         @Override
-        public User findUserById(int id) {
+        public User getUserById(int id) {
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
                 User user=session.get(User.class,id);
@@ -208,7 +209,7 @@ private final ObservableList<User> users;
 
         }
 
-        @Override
+      @Override
         public void saveAll(User[] users) {
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -224,7 +225,7 @@ private final ObservableList<User> users;
 
     private class H2TaskDAO implements TaskDAO {
         @Override
-        public ObservableList<Task> findAllTasks() {
+        public ObservableList<Task> getAllTasks() {
 
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -235,7 +236,7 @@ private final ObservableList<User> users;
         }
 
         @Override
-        public ObservableList<Task> findUserTasks(int userId) {
+        public ObservableList<Task> getUserTasks(int userId) {
 
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -246,7 +247,7 @@ private final ObservableList<User> users;
         }
 
         @Override
-        public ObservableList<Task> findProjectTasks(int projectId) {
+        public ObservableList<Task> getProjectTasks(int projectId) {
 
             try (Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -257,7 +258,7 @@ private final ObservableList<User> users;
         }
 
         @Override
-        public Task findTaskById(int id) {
+        public Task getTaskById(int id) {
             Task task;
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
@@ -273,8 +274,6 @@ private final ObservableList<User> users;
             try(Session session = factory.getCurrentSession()) {
                 session.beginTransaction();
 
-
-
                 session.saveOrUpdate(task);
                 session.getTransaction().commit();
             }
@@ -282,6 +281,7 @@ private final ObservableList<User> users;
 
 
         }
+
 
         @Override
         public void saveAll(Task[] tasks) {

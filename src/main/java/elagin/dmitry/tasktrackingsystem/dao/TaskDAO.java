@@ -41,6 +41,8 @@ public interface TaskDAO {
      */
     void save(Task task);
 
+    void saveAll(Task[] tasks);
+
     /**
      * Removes a task from a data source
      * @param task {@link Task} object to be removed from data source

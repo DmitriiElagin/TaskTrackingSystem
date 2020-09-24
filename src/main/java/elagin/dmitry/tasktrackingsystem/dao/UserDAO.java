@@ -35,5 +35,6 @@ public interface UserDAO {
      */
     void delete(User user);
 
-    
+
+    void saveAll(User[] users);
 }
