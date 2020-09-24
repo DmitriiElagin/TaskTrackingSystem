@@ -1,10 +1,20 @@
 package elagin.dmitry.tasktrackingsystem.model;
 
+
 import elagin.dmitry.tasktrackingsystem.model.entities.Project;
 import elagin.dmitry.tasktrackingsystem.model.entities.Task;
 import elagin.dmitry.tasktrackingsystem.model.entities.User;
 
 import java.io.Serializable;
+
+
+
+
+
+/**
+ * Helper class for serializing / deserializing source data
+ * @author Dmitry Elagin
+ */
 
 public class DBSaver implements Serializable {
     static final long serialVersionUID = 8757995545602358470L;

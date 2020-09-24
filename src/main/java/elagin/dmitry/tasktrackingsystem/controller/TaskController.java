@@ -1,5 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.controller;
 
+
 import elagin.dmitry.tasktrackingsystem.model.Repository;
 import elagin.dmitry.tasktrackingsystem.model.entities.Project;
 import elagin.dmitry.tasktrackingsystem.model.entities.Task;
@@ -12,11 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-
-public class TaskController implements DialogController<Task> {
-
-    private Task task;
+/**
+ * Controller class for the save task dialog
+ * @author Dmitry Elagin
+ * @see DialogController
+ */
+public class TaskController extends DialogController<Task> {
 
     @FXML
     TextField tfTheme, tfType;
@@ -32,33 +36,26 @@ public class TaskController implements DialogController<Task> {
     TextArea taDescription;
 
     @FXML
-    Button btnCancel, btnSave;
-
-
+    Button btnSave;
 
     private ObservableList<Project> projects;
     private ObservableList<User> users;
+
     private boolean result;
-
-
-
-    public void setResult(boolean result) {
-        this.result = result;
-    }
 
     @FXML
     public void initialize() {
-        projects= Repository.getInstance().findAllProjects();
-        users=Repository.getInstance().findAllUsers();
+        projects = Repository.getInstance().findAllProjects();
+        users = Repository.getInstance().findAllUsers();
         initUI();
     }
 
     private void initUI() {
+
         InvalidationListener listener=observable ->
                 btnSave.setDisable(tfTheme.getText().isEmpty()
                         ||tfType.getText().isEmpty()
                         ||taDescription.getText().isEmpty());
-
 
         tfType.textProperty().addListener(listener);
         tfTheme.textProperty().addListener(listener);
@@ -73,57 +70,48 @@ public class TaskController implements DialogController<Task> {
     }
 
     @FXML
+    @Override
     public void onSaveAction() {
 
-        task.setType(tfType.getText());
-        task.setPriority(cbPriority.getValue());
-        task.setTheme(tfTheme.getText());
-        task.setDescription(taDescription.getText());
-        task.setResponsible(cbResp.getValue());
-        task.setProject(cbProject.getValue());
+        model.setType(tfType.getText());
+        model.setPriority(cbPriority.getValue());
+        model.setTheme(tfTheme.getText());
+        model.setDescription(taDescription.getText());
+        model.setResponsible(cbResp.getValue());
+        model.setProject(cbProject.getValue());
 
-        Repository.getInstance().saveTask(task);
-        setResult(true);
+        Repository.getInstance().saveTask(model);
+        result=true;
         closeWindow();
     }
 
     @FXML
     @Override
     public void onCancelAction() {
-        setResult(false);
+        result=false;
         closeWindow();
     }
 
     @Override
-    public Button getOKButton() {
-        return btnSave ;
-    }
-
-    @Override
-    public Button getCancelButton() {
-        return btnCancel;
-    }
-
-
-    @Override
     public void setModel(Task model) {
-        this.task=model;
-        tfTheme.setText(task.getTheme());
-        tfType.setText(task.getType());
-        taDescription.setText(task.getDescription());
-        cbPriority.getSelectionModel().select(task.getPriority());
-        if(task.getId()!=0) {
-            cbResp.getSelectionModel().select(task.getResponsible());
-            cbProject.getSelectionModel().select(task.getProject());
+        this.model = model;
+        tfTheme.setText(model.getTheme());
+        tfType.setText(model.getType());
+        taDescription.setText(model.getDescription());
+        cbPriority.getSelectionModel().select(model.getPriority());
+        if (model.getId() != 0) {
+            cbResp.getSelectionModel().select(model.getResponsible());
+            cbProject.getSelectionModel().select(model.getProject());
         }
-
-
     }
 
     @Override
     public boolean getResult() {
-
         return result;
+    }
+
+    private void closeWindow() {
+        ((Stage) btnSave.getScene().getWindow()).close();
     }
 
 
