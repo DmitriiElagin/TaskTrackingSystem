@@ -1,9 +1,8 @@
 package elagin.dmitry.tasktrackingsystem.dao;
 
+import elagin.dmitry.tasktrackingsystem.entities.Project;
 
-import elagin.dmitry.tasktrackingsystem.model.entities.Project;
-import javafx.collections.ObservableList;
-
+import java.util.List;
 
 /**
  * Interface for a data access object that performs operations with an entity  {@link Project}
@@ -14,7 +13,7 @@ public interface ProjectDAO {
     /**
      * Returns all projects stored in a data source
      */
-    ObservableList<Project> getAllProjects();
+    List<Project> getAllProjects();
 
     /**
      * Searches for and returns a project with the specified id
@@ -25,9 +24,10 @@ public interface ProjectDAO {
 
     /**
      * Saves a project to the data source
+     *
      * @param project {@link Project} object to be saved to the data source
      */
-    void save(Project project);
+    Project save(Project project);
 
     /**
      * Removes a project from a data source
@@ -35,6 +35,4 @@ public interface ProjectDAO {
      */
     void delete(Project project);
 
-
-    void saveAll(Project[] projects);
 }

@@ -1,8 +1,8 @@
 package elagin.dmitry.tasktrackingsystem.dao;
 
+import elagin.dmitry.tasktrackingsystem.entities.Task;
 
-import elagin.dmitry.tasktrackingsystem.model.entities.Task;
-import javafx.collections.ObservableList;
+import java.util.List;
 
 /**
  * Interface for a data access object that performs operations with an entity  {@link Task}
@@ -14,19 +14,21 @@ public interface TaskDAO {
     /**
      * Returns all tasks stored in a data source
      */
-    ObservableList<Task> getAllTasks();
+    List<Task> getAllTasks();
 
     /**
      * Searches for and returns a list of tasks associated with the specified user
+     *
      * @param userId user id referenced by tasks to find
      */
-    ObservableList<Task> getUserTasks(int userId);
+    List<Task> getTasksByUserId(int userId);
 
     /**
      * Searches for and returns a list of tasks associated with the specified project
+     *
      * @param projectId project id referenced by tasks to find
      */
-    ObservableList<Task> getProjectTasks(int projectId);
+    List<Task> getTasksByProjectId(int projectId);
 
     /**
      * Searches for and returns a task with the specified id
@@ -37,11 +39,12 @@ public interface TaskDAO {
 
     /**
      * Saves the task to the data source
+     *
      * @param task {@link Task} object to be saved to the data source
      */
-    void save(Task task);
+    Task save(Task task);
 
-    void saveAll(Task[] tasks);
+    void saveAll(List<Task> tasks);
 
     /**
      * Removes a task from a data source

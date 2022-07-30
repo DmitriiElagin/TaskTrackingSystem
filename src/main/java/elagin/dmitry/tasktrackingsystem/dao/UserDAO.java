@@ -1,8 +1,8 @@
 package elagin.dmitry.tasktrackingsystem.dao;
 
-import elagin.dmitry.tasktrackingsystem.model.entities.User;
-import javafx.collections.ObservableList;
+import elagin.dmitry.tasktrackingsystem.entities.User;
 
+import java.util.List;
 
 
 /**
@@ -14,7 +14,7 @@ public interface UserDAO {
     /**
      * Returns all users stored in a data source
      */
-    ObservableList<User> getAllUsers();
+    List<User> getAllUsers();
 
     /**
      * Searches for and returns a user with the specified id
@@ -25,9 +25,10 @@ public interface UserDAO {
 
     /**
      * Saves a user to the data source
+     *
      * @param user {@link User} object to be saved to the data source
      */
-    void save(User user);
+    User save(User user);
 
     /**
      * Removes a user from a data source
@@ -35,6 +36,4 @@ public interface UserDAO {
      */
     void delete(User user);
 
-
-    void saveAll(User[] users);
 }
