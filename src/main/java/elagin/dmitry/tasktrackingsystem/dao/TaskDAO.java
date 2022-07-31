@@ -17,15 +17,15 @@ public interface TaskDAO extends CrudRepository<Task, Integer> {
     /**
      * Searches for and returns a list of tasks associated with the specified user
      *
-     * @param userId user id referenced by tasks to find
+     * @param id user id referenced by tasks to find
      */
-    List<Task> findTasksByUserId(int userId);
+    List<Task> findByResponsibleId(int id);
 
     /**
      * Searches for and returns a list of tasks associated with the specified project
      *
-     * @param projectId project id referenced by tasks to find
+     * @param id project id referenced by tasks to find
      */
-    List<Task> findTasksByProjectId(int projectId);
+    List<Task> findTasksByProjectId(int id);
 
 }

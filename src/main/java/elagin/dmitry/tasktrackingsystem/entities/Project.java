@@ -41,8 +41,8 @@ public class Project implements Serializable {
 
     public Project(int id, String title) {
         this.title = title;
-        this.id=id;
-        tasks=new ArrayList<>();
+        this.id = id;
+        tasks = new ArrayList<>();
     }
 
     public Project(String title) {

@@ -2,6 +2,7 @@ package elagin.dmitry.tasktrackingsystem.dao;
 
 import elagin.dmitry.tasktrackingsystem.entities.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Dmitry Elagin
  */
+@Repository
 public interface UserDAO extends CrudRepository<User, Integer> {
 
 }

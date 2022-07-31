@@ -32,15 +32,29 @@ public class Task implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    public Task () {
+    public Task() {
+        priority = TaskPriority.MEDIUM;
+    }
 
+    public Task(int id, String theme, String description, String type, Project project, User responsible, TaskPriority priority) {
+        this.id = id;
+        this.theme = theme;
+        this.type = type;
+        this.project = project;
+        this.responsible = responsible;
+        this.priority = priority;
+        this.description = description;
+    }
+
+    public Task(String theme, String description, String type, Project project, User responsible) {
+        this(0, theme, description, type, project, responsible, TaskPriority.MEDIUM);
     }
 
     public enum TaskPriority {
-    LOW,
-    MEDIUM,
-    HIGH
-}
+        LOW,
+        MEDIUM,
+        HIGH
+    }
 
     public int getId() {
         return id;
@@ -96,5 +110,18 @@ public class Task implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", theme='" + theme + '\'' +
+                ", type='" + type + '\'' +
+                ", project=" + project +
+                ", responsible=" + responsible +
+                ", priority=" + priority +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
