@@ -9,21 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="project")
+@Table(name = "project")
 public class Project implements Serializable {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER,
-            mappedBy = "project",
-            cascade = {CascadeType.ALL}
-    )
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE},
+            mappedBy = "project")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Task> tasks;
 
@@ -66,8 +63,10 @@ public class Project implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        return "Project{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", tasks=" + tasks +
+                '}';
     }
-
-
 }

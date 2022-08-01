@@ -27,7 +27,7 @@ public class User implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER,
             mappedBy = "responsible",
-            cascade = {CascadeType.ALL})
+            cascade = {CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Task> tasks;
 

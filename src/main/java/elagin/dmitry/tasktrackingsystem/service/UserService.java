@@ -1,33 +1,33 @@
 package elagin.dmitry.tasktrackingsystem.service;
 
-import elagin.dmitry.tasktrackingsystem.entities.Project;
-import elagin.dmitry.tasktrackingsystem.repository.ProjectRepository;
+import elagin.dmitry.tasktrackingsystem.entities.User;
+import elagin.dmitry.tasktrackingsystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class ProjectService {
-    private final ProjectRepository dao;
+public class UserService {
+    private final UserRepository dao;
 
-    public ProjectService(ProjectRepository dao) {
+    public UserService(UserRepository dao) {
         this.dao = dao;
     }
 
     @Transactional
-    public Iterable<Project> findAll() {
+    public Iterable<User> findAll() {
         return dao.findAll();
     }
 
     @Transactional
-    public Optional<Project> findById(int id) {
+    public Optional<User> findById(int id) {
         return dao.findById(id);
     }
 
     @Transactional
-    public Project save(Project project) {
-        return dao.save(project);
+    public User save(User user) {
+        return dao.save(user);
     }
 
     @Transactional

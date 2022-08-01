@@ -1,4 +1,4 @@
-package elagin.dmitry.tasktrackingsystem.dao;
+package elagin.dmitry.tasktrackingsystem.repository;
 
 import elagin.dmitry.tasktrackingsystem.entities.Project;
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author Dmitry Elagin
  */
 @Repository
-public interface ProjectDAO extends CrudRepository<Project, Integer> {
+public interface ProjectRepository extends CrudRepository<Project, Integer> {
 }

@@ -18,11 +18,11 @@ public class Task implements Serializable {
 
     @Column(nullable = false)
     private String type;
-    @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name="project_id")
+    @ManyToOne()
+    @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne(cascade ={CascadeType.REFRESH})
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User responsible;
 
@@ -118,8 +118,8 @@ public class Task implements Serializable {
                 "id=" + id +
                 ", theme='" + theme + '\'' +
                 ", type='" + type + '\'' +
-                ", project=" + project +
-                ", responsible=" + responsible +
+                ", project=" + project.getTitle() +
+                ", responsible=" + responsible.getLastName() +
                 ", priority=" + priority +
                 ", description='" + description + '\'' +
                 '}';

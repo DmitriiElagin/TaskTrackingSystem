@@ -1,4 +1,4 @@
-package elagin.dmitry.tasktrackingsystem.dao;
+package elagin.dmitry.tasktrackingsystem.repository;
 
 import elagin.dmitry.tasktrackingsystem.entities.Task;
 import org.springframework.data.repository.CrudRepository;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Dmitry Elagin
  */
 @Repository
-public interface TaskDAO extends CrudRepository<Task, Integer> {
+public interface TaskRepository extends CrudRepository<Task, Integer> {
 
     /**
      * Searches for and returns a list of tasks associated with the specified user
@@ -26,6 +26,6 @@ public interface TaskDAO extends CrudRepository<Task, Integer> {
      *
      * @param id project id referenced by tasks to find
      */
-    List<Task> findTasksByProjectId(int id);
+    List<Task> findByProjectId(int id);
 
 }
