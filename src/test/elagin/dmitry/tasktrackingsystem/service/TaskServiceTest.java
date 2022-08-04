@@ -1,66 +1,55 @@
 package elagin.dmitry.tasktrackingsystem.service;
 
 import elagin.dmitry.tasktrackingsystem.entities.Task;
+import elagin.dmitry.tasktrackingsystem.repository.TaskRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class TaskServiceTest {
-
     @Autowired
     private TaskService service;
 
+    @MockBean
+    private TaskRepository repository;
+
     @Test
     void findAll() {
-        final var tasks = service.findAll();
-        assertNotNull(tasks);
-        assertTrue(tasks.iterator().hasNext());
+        service.findAll();
+        Mockito.verify(repository).findAll();
     }
 
     @Test
     void findById() {
-        var optional = service.findById(1);
-        assertTrue(optional.isPresent());
-        assertEquals(1, optional.get().getId());
+        service.findById(1);
+        Mockito.verify(repository).findById(1);
     }
 
     @Test
     void findByResponsibleId() {
-        final var tasks = service.findByResponsibleId(1);
-        assertNotNull(tasks);
-        assertTrue(tasks.iterator().hasNext());
-        assertEquals(1, tasks.iterator().next().getResponsible().getId());
+        service.findByResponsibleId(1);
+        Mockito.verify(repository).findByResponsibleId(1);
     }
 
     @Test
     void findByProjectId() {
-        final var tasks = service.findByProjectId(1);
-        assertNotNull(tasks);
-        assertTrue(tasks.iterator().hasNext());
-        assertEquals(1, tasks.iterator().next().getProject().getId());
+        service.findByProjectId(1);
+        Mockito.verify(repository).findByProjectId(1);
     }
 
     @Test
     void save() {
-        service.findById(1).ifPresentOrElse(task -> {
-            var newTask = service.save(new Task("Theme",
-                    "Deskripiton",
-                    "Type",
-                    task.getProject(),
-                    task.getResponsible()));
-
-            assertNotNull(newTask);
-            assertNotEquals(0, newTask.getId());
-        }, () -> fail("Задача не найдена!"));
+        final var task = new Task();
+        service.save(task);
+        Mockito.verify(repository).save(task);
     }
 
     @Test
     void deleteById() {
         service.deleteById(1);
-        final var optional = service.findById(1);
-        assertFalse(optional.isPresent());
+        Mockito.verify(repository).deleteById(1);
     }
 }

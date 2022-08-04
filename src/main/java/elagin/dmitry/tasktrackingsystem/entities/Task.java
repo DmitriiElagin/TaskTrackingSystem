@@ -2,6 +2,7 @@ package elagin.dmitry.tasktrackingsystem.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "task")
@@ -123,5 +124,18 @@ public class Task implements Serializable {
                 ", priority=" + priority +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && theme.equals(task.theme) && type.equals(task.type) && project.equals(task.project) && responsible.equals(task.responsible) && priority == task.priority && description.equals(task.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, theme, type, project, responsible, priority, description);
     }
 }

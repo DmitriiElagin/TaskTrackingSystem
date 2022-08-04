@@ -1,5 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "project")
@@ -24,6 +26,7 @@ public class Project implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Task> tasks;
 
+    @JsonIgnore
     public List<Task> getTasks() {
         return tasks;
     }
@@ -68,5 +71,18 @@ public class Project implements Serializable {
                 ", title='" + title + '\'' +
                 ", tasks=" + tasks +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return id == project.id && title.equals(project.title) && Objects.equals(tasks, project.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, tasks);
     }
 }

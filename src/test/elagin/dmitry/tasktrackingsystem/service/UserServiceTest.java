@@ -1,42 +1,43 @@
 package elagin.dmitry.tasktrackingsystem.service;
 
 import elagin.dmitry.tasktrackingsystem.entities.User;
+import elagin.dmitry.tasktrackingsystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class UserServiceTest {
     @Autowired
     private UserService service;
 
+    @MockBean
+    private UserRepository repository;
+
     @Test
-    public void findAll() {
-        final var users = service.findAll();
-        assertNotNull(users);
-        assertTrue(users.iterator().hasNext());
+    void findAll() {
+        service.findAll();
+        Mockito.verify(repository).findAll();
     }
 
     @Test
-    public void findById() {
-        final var optional = service.findById(1);
-        assertTrue(optional.isPresent());
-        assertEquals(1, optional.get().getId());
+    void findById() {
+        service.findById(1);
+        Mockito.verify(repository).findById(1);
     }
 
     @Test
-    public void save() {
-        final var user = service.save(new User("John", "Snow"));
-        assertNotNull(user);
-        assertNotEquals(0, user.getId());
+    void save() {
+        final var user = new User();
+        service.save(user);
+        Mockito.verify(repository).save(user);
     }
 
     @Test
-    public void deleteById() {
+    void deleteByID() {
         service.deleteById(1);
-        final var optional = service.findById(1);
-        assertFalse(optional.isPresent());
+        Mockito.verify(repository).deleteById(1);
     }
 }
