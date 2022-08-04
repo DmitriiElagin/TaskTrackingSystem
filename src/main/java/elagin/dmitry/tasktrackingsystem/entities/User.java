@@ -1,5 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,6 +31,7 @@ public class User implements Serializable {
             mappedBy = "responsible",
             cascade = {CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<Task> tasks;
 
 
