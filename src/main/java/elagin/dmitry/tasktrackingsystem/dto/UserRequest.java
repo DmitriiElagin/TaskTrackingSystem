@@ -7,27 +7,27 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class UserDTO implements Serializable {
+public class UserRequest implements Serializable {
     @Min(0)
     private int id;
 
     @NotBlank
-    @Size(max = 25)
+    @Size(max = 32)
     private String firstName;
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 64)
     private String lastName;
 
-    public UserDTO(int id, String firstName, String lastName) {
+    public UserRequest(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public UserDTO() {
+    public UserRequest() {
     }
 
-    public UserDTO(String firstName, String lastName) {
+    public UserRequest(String firstName, String lastName) {
         this(0, firstName, lastName);
     }
 
@@ -58,10 +58,4 @@ public class UserDTO implements Serializable {
     public User toUser() {
         return new User(id, firstName, lastName);
     }
-
-    @Override
-    public String toString() {
-        return firstName + " " + lastName;
-    }
-
 }

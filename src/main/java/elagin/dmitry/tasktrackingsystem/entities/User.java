@@ -26,8 +26,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String lastName;
 
-
-    @OneToMany(fetch = FetchType.EAGER,
+    @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "responsible",
             cascade = {CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)

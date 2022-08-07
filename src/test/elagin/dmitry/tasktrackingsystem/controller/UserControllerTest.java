@@ -1,7 +1,7 @@
 package elagin.dmitry.tasktrackingsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import elagin.dmitry.tasktrackingsystem.dto.UserDTO;
+import elagin.dmitry.tasktrackingsystem.dto.UserRequest;
 import elagin.dmitry.tasktrackingsystem.entities.User;
 import elagin.dmitry.tasktrackingsystem.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -91,7 +91,7 @@ class UserControllerTest {
 
     @Test
     public void saveUser() throws Exception {
-        final var dto = new UserDTO(0, "John", "Doe");
+        final var dto = new UserRequest("John", "Doe");
         final var content = mapper.writer().writeValueAsString(dto);
 
         given(service.save(ArgumentMatchers.any())).willReturn(dto.toUser());
@@ -110,7 +110,7 @@ class UserControllerTest {
     @Test
     public void saveUserShouldReturnErrors() throws Exception {
         var content = mapper.writer().writeValueAsString(
-                new UserDTO(-1, "asdasdasdasdasdasdasdasdasd", ""));
+                new UserRequest(-1, "asdasdasdasdasdasdasdasdasdaaaaaa", ""));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post(URL)
@@ -126,7 +126,7 @@ class UserControllerTest {
 
     @Test
     public void updateUser() throws Exception {
-        final var dto = new UserDTO(1, "John", "Doe");
+        final var dto = new UserRequest(1, "John", "Doe");
         final var content = mapper.writer().writeValueAsString(dto);
 
         when(service.findById(anyInt())).thenReturn(Optional.of(dto.toUser()));
@@ -148,7 +148,7 @@ class UserControllerTest {
     @Test
     public void updateUserShouldReturnErrors() throws Exception {
         var content = mapper.writer().writeValueAsString(
-                new UserDTO(-1, "asdasdasdasdasdasdasdasdasd", ""));
+                new UserRequest(-1, "asdasdasdasdasdasdasdasdasdasdasd", ""));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.put(URL)
@@ -161,7 +161,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.message", containsString("lastName")))
                 .andExpect(jsonPath("$.message", containsString("id")));
 
-        content = mapper.writer().writeValueAsString(new UserDTO(1, "John", "Doe"));
+        content = mapper.writer().writeValueAsString(new UserRequest(1, "John", "Doe"));
 
         when(service.findById(anyInt())).thenReturn(Optional.empty());
 

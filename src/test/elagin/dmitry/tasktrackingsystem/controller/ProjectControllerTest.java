@@ -1,7 +1,7 @@
 package elagin.dmitry.tasktrackingsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import elagin.dmitry.tasktrackingsystem.dto.ProjectDTO;
+import elagin.dmitry.tasktrackingsystem.dto.ProjectRequest;
 import elagin.dmitry.tasktrackingsystem.entities.Project;
 import elagin.dmitry.tasktrackingsystem.service.ProjectService;
 import org.junit.jupiter.api.Test;
@@ -90,7 +90,7 @@ class ProjectControllerTest {
 
     @Test
     public void saveProject() throws Exception {
-        final var dto = new ProjectDTO(0, "Title");
+        final var dto = new ProjectRequest("Title");
         final var content = mapper.writer().writeValueAsString(dto);
 
         given(service.save(ArgumentMatchers.any())).willReturn(dto.toProject());
@@ -108,7 +108,7 @@ class ProjectControllerTest {
 
     @Test
     public void saveProjectShouldReturnErrors() throws Exception {
-        var content = mapper.writer().writeValueAsString(new ProjectDTO(-1, null));
+        var content = mapper.writer().writeValueAsString(new ProjectRequest(-1, null));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post(URL)
@@ -123,7 +123,7 @@ class ProjectControllerTest {
 
     @Test
     public void updateProject() throws Exception {
-        final var dto = new ProjectDTO(1, "Title");
+        final var dto = new ProjectRequest(1, "Title");
         final var content = mapper.writer().writeValueAsString(dto);
 
         when(service.findById(anyInt())).thenReturn(Optional.of(dto.toProject()));
@@ -143,7 +143,7 @@ class ProjectControllerTest {
 
     @Test
     public void updateProjectShouldReturnErrors() throws Exception {
-        var content = mapper.writer().writeValueAsString(new ProjectDTO(-1, null));
+        var content = mapper.writer().writeValueAsString(new ProjectRequest(-1, null));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.put(URL)
@@ -155,7 +155,7 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.message", containsString("title")))
                 .andExpect(jsonPath("$.message", containsString("id")));
 
-        content = mapper.writer().writeValueAsString(new ProjectDTO(1, "Test"));
+        content = mapper.writer().writeValueAsString(new ProjectRequest(1, "Test"));
 
         when(service.findById(anyInt())).thenReturn(Optional.empty());
 

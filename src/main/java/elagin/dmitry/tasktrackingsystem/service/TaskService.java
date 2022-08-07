@@ -9,39 +9,43 @@ import java.util.Optional;
 
 @Component
 public class TaskService {
-    private final TaskRepository dao;
+    private final TaskRepository repository;
 
-    public TaskService(TaskRepository dao) {
-        this.dao = dao;
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
+    }
+
+    public boolean existsById(int id) {
+        return repository.existsById(id);
     }
 
     @Transactional
     public Iterable<Task> findAll() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Transactional
     public Optional<Task> findById(int id) {
-        return dao.findById(id);
+        return repository.findById(id);
     }
 
     @Transactional
     public Iterable<Task> findByProjectId(int projectId) {
-        return dao.findByProjectId(projectId);
+        return repository.findByProjectId(projectId);
     }
 
     @Transactional
     public Iterable<Task> findByResponsibleId(int responsibleId) {
-        return dao.findByResponsibleId(responsibleId);
+        return repository.findByResponsibleId(responsibleId);
     }
 
     @Transactional
     public Task save(Task task) {
-        return dao.save(task);
+        return repository.save(task);
     }
 
     @Transactional
     public void deleteById(int id) {
-        dao.deleteById(id);
+        repository.deleteById(id);
     }
 }

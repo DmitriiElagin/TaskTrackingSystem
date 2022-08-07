@@ -1,6 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.controller;
 
-import elagin.dmitry.tasktrackingsystem.dto.ProjectDTO;
+import elagin.dmitry.tasktrackingsystem.dto.ProjectRequest;
 import elagin.dmitry.tasktrackingsystem.entities.Project;
 import elagin.dmitry.tasktrackingsystem.exception.EntityNotFoundException;
 import elagin.dmitry.tasktrackingsystem.service.ProjectService;
@@ -33,12 +33,12 @@ public class ProjectController {
     }
 
     @PostMapping("/")
-    public Project saveProject(@Valid @RequestBody ProjectDTO dto) {
+    public Project saveProject(@Valid @RequestBody ProjectRequest dto) {
         return service.save(dto.toProject());
     }
 
     @PutMapping("/")
-    public Project updateProject(@Valid @RequestBody ProjectDTO dto) {
+    public Project updateProject(@Valid @RequestBody ProjectRequest dto) {
         Project project;
 
         final var optional = service.findById(dto.getId());

@@ -73,4 +73,10 @@ class ProjectRepositoryTest {
         assertThrows(EmptyResultDataAccessException.class, () -> repository.deleteById(0));
     }
 
+    @Test
+    void existsById() {
+        assertTrue(repository.existsById(project.getId()));
+        assertFalse(repository.existsById(-1));
+    }
+
 }

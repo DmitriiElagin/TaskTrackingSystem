@@ -19,7 +19,10 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(new ErrorEntity(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler(
+            {ConstraintViolationException.class,
+                    MethodArgumentNotValidException.class,
+                    IllegalArgumentException.class})
     public ResponseEntity<ErrorEntity> handleValidationExceptions(Exception exception) {
         return new ResponseEntity<>(new ErrorEntity(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }

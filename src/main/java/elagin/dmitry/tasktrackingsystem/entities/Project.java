@@ -21,7 +21,7 @@ public class Project implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE},
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE},
             mappedBy = "project")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Task> tasks;
@@ -38,7 +38,6 @@ public class Project implements Serializable {
     public Project() {
 
     }
-
     public Project(int id, String title) {
         this.title = title;
         this.id = id;

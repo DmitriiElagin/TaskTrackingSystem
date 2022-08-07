@@ -76,6 +76,8 @@ class TaskRepositoryTest {
 
             assertNotNull(newTask);
             assertNotEquals(0, newTask.getId());
+            assertNotNull(newTask.getProject());
+            assertNotNull(newTask.getResponsible());
         }, () -> fail("Задача не найдена!"));
     }
 
@@ -102,5 +104,11 @@ class TaskRepositoryTest {
     @Test
     void deleteByIdShouldThrowException() {
         assertThrows(EmptyResultDataAccessException.class, () -> repository.deleteById(0));
+    }
+
+    @Test
+    void existsById() {
+        assertTrue(repository.existsById(task.getId()));
+        assertFalse(repository.existsById(-1));
     }
 }

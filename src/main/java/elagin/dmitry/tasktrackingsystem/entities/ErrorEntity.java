@@ -10,11 +10,4 @@ public class ErrorEntity {
     public String getMessage() {
         return message;
     }
-
-    @Override
-    public String toString() {
-        return "ErrorEntity{" +
-                "message='" + message + '\'' +
-                '}';
-    }
 }

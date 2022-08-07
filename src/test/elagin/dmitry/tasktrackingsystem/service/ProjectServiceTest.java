@@ -23,6 +23,12 @@ class ProjectServiceTest {
     }
 
     @Test
+    void existsById() {
+        service.existsById(1);
+        Mockito.verify(repository).existsById(1);
+    }
+
+    @Test
     void findById() {
         service.findById(1);
         Mockito.verify(repository).findById(1);

@@ -1,6 +1,6 @@
 package elagin.dmitry.tasktrackingsystem.controller;
 
-import elagin.dmitry.tasktrackingsystem.dto.UserDTO;
+import elagin.dmitry.tasktrackingsystem.dto.UserRequest;
 import elagin.dmitry.tasktrackingsystem.entities.User;
 import elagin.dmitry.tasktrackingsystem.exception.EntityNotFoundException;
 import elagin.dmitry.tasktrackingsystem.service.UserService;
@@ -33,12 +33,12 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public User saveUser(@Valid @RequestBody UserDTO dto) {
+    public User saveUser(@Valid @RequestBody UserRequest dto) {
         return service.save(dto.toUser());
     }
 
     @PutMapping("/")
-    public User updateUser(@Valid @RequestBody UserDTO dto) {
+    public User updateUser(@Valid @RequestBody UserRequest dto) {
         User user;
 
         final var optional = service.findById(dto.getId());

@@ -68,4 +68,10 @@ class UserRepositoryTest {
     void deleteByIdShouldThrowException() {
         assertThrows(EmptyResultDataAccessException.class, () -> repository.deleteById(0));
     }
+
+    @Test
+    void existsById() {
+        assertTrue(repository.existsById(user.getId()));
+        assertFalse(repository.existsById(-1));
+    }
 }

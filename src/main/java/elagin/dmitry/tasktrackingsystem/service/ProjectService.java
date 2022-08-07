@@ -9,29 +9,33 @@ import java.util.Optional;
 
 @Service
 public class ProjectService {
-    private final ProjectRepository dao;
+    private final ProjectRepository repository;
 
-    public ProjectService(ProjectRepository dao) {
-        this.dao = dao;
+    public ProjectService(ProjectRepository repository) {
+        this.repository = repository;
+    }
+
+    public boolean existsById(int id) {
+        return repository.existsById(id);
     }
 
     @Transactional
     public Iterable<Project> findAll() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Transactional
     public Optional<Project> findById(int id) {
-        return dao.findById(id);
+        return repository.findById(id);
     }
 
     @Transactional
     public Project save(Project project) {
-        return dao.save(project);
+        return repository.save(project);
     }
 
     @Transactional
     public void deleteById(int id) {
-        dao.deleteById(id);
+        repository.deleteById(id);
     }
 }
