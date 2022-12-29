@@ -32,12 +32,12 @@ public class ProjectController {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Проект с id = %d не найден!", id)));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Project saveProject(@Valid @RequestBody ProjectRequest dto) {
         return service.save(dto.toProject());
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Project updateProject(@Valid @RequestBody ProjectRequest dto) {
         Project project;
 

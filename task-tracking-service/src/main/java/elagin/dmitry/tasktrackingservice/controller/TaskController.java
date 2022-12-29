@@ -62,7 +62,7 @@ public class TaskController {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Задача с id = %d не найдена!", id)));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Task saveTask(@Valid @RequestBody TaskRequest dto) {
         final var optionalProject = projectService.findById(dto.getProjectId());
         final var optionalUser = userService.findById(dto.getResponsibleId());
@@ -82,7 +82,7 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Task updateTask(@Valid @RequestBody TaskRequest dto) {
         Task task;
 

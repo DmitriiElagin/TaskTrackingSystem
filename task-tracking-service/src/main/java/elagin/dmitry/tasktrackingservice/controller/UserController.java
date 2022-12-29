@@ -32,12 +32,12 @@ public class UserController {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Пользователь с id = %d не найден!", id)));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public User saveUser(@Valid @RequestBody UserRequest dto) {
         return service.save(dto.toUser());
     }
 
-    @PutMapping("/")
+    @PutMapping
     public User updateUser(@Valid @RequestBody UserRequest dto) {
         User user;
 
