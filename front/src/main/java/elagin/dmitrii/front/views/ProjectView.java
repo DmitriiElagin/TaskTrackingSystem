@@ -2,7 +2,6 @@ package elagin.dmitrii.front.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
@@ -17,10 +16,13 @@ import com.vaadin.flow.router.RouteAlias;
 import elagin.dmitrii.front.dto.ProjectDTO;
 import elagin.dmitrii.front.service.ProjectService;
 
+import javax.annotation.security.RolesAllowed;
+
 
 @Route(value = "/projects", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @PageTitle("Проекты")
+@RolesAllowed(value = {"ROLE_USER", "ROLE_ADMINISTRATOR"})
 public class ProjectView extends VerticalLayout {
     private final ProjectService service;
     private ListBox<ProjectDTO> projectListBox;
@@ -96,7 +98,7 @@ public class ProjectView extends VerticalLayout {
         dialog.setText("Удалить проект " + "\"" + event.getProject().getTitle() + "\" ?");
         dialog.setConfirmText("Удалить");
         dialog.setCancelText("Отмена");
-        dialog.setConfirmButtonTheme(ButtonVariant.LUMO_ERROR.getVariantName());
+        dialog.setConfirmButtonTheme("error primary");
         dialog.addConfirmListener(ev -> {
             service.delete(event.getProject());
             updateList();
