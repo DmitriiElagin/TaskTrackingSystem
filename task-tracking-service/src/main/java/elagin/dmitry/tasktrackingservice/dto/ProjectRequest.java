@@ -43,4 +43,12 @@ public class ProjectRequest implements Serializable {
     public Project toProject() {
         return new Project(id, title);
     }
+
+    @Override
+    public String toString() {
+        return "ProjectRequest{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            '}';
+    }
 }

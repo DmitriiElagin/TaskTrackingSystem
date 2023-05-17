@@ -17,7 +17,19 @@ import java.util.Objects;
 @Table(name = "sys_user")
 public class User implements UserDetails {
     public enum UserRole {
-        ROLE_USER, ROLE_ADMINISTRATOR
+        ROLE_USER("Пользователь"), ROLE_ADMINISTRATOR("Администратор");
+
+
+        private final String text;
+
+        UserRole(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
     }
 
     @Column(name = "user_id", nullable = false, unique = true)

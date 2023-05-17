@@ -37,6 +37,14 @@ class UserServiceIntegrationTest {
     }
 
     @Test
+    void existsByUsername() {
+        var user = getUser();
+
+        assertTrue(service.existsByUsername(user.getUsername()));
+        assertFalse(service.existsByUsername("invalid"));
+    }
+
+    @Test
     void loadUserByUsername() {
         User user = getUser();
         UserDetails result = service.loadUserByUsername(user.getUsername());

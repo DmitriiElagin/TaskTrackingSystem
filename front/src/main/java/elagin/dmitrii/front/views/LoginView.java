@@ -1,5 +1,6 @@
 package elagin.dmitrii.front.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.login.LoginForm;
@@ -22,8 +23,14 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView() {
         var loginI18n = LoginI18n.createDefault();
         loginI18n.getForm().setTitle("Вход в систему");
-        loginI18n.getErrorMessage().setTitle("Неверные имя пользователя или пароль!");
-        loginForm = new LoginForm(loginI18n);
+
+        LoginI18n.ErrorMessage errorMessage = loginI18n.getErrorMessage();
+        errorMessage.setTitle("Ошибка аутентификации");
+        errorMessage.setMessage("Неверные имя пользователя или пароль!");
+        loginI18n.setErrorMessage(errorMessage);
+
+        loginForm = new LoginForm();
+        loginForm.setI18n(loginI18n);
         loginForm.setForgotPasswordButtonVisible(false);
 
         addClassName("login-view");
@@ -35,6 +42,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         Button btnReg = new Button("Регистрация");
         btnReg.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        btnReg.addClickListener(ev -> UI.getCurrent().getPage().setLocation("users/registration"));
 
         add(loginForm, btnReg);
     }
@@ -42,9 +50,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         if (beforeEnterEvent.getLocation()
-                .getQueryParameters()
-                .getParameters()
-                .containsKey("errors")) {
+            .getQueryParameters()
+            .getParameters()
+            .containsKey("error")) {
             loginForm.setError(true);
         }
 

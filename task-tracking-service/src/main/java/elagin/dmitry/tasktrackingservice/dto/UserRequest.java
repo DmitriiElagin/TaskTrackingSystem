@@ -48,14 +48,23 @@ public class UserRequest implements Serializable {
     }
 
     public String getLastName() {
-        return lastName;
+      return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public User toUser() {
-        return new User(id, firstName, lastName);
-    }
+  public User toUser() {
+    return new User(id, firstName, lastName);
+  }
+
+  @Override
+  public String toString() {
+    return "UserRequest{" +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        '}';
+  }
 }

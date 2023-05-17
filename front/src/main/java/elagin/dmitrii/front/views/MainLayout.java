@@ -43,6 +43,7 @@ public class MainLayout extends AppLayout {
         viewTitle = new H2();
 
         userIcon = new Icon(VaadinIcon.USER);
+        userIcon.setColor("#335cad");
 
         username = new Text("Гость");
 
@@ -51,8 +52,9 @@ public class MainLayout extends AppLayout {
         var optionalUser = securityService.getAuthenticatedUser();
         optionalUser.ifPresent(user -> {
             username.setText(user.getUsername());
-            System.out.println(user.getIconName());
+
             userIcon = VaadinIcon.valueOf(user.getIconName()).create();
+            userIcon.setColor("#335cad");
         });
 
         var btnLogout = new Button();
@@ -88,6 +90,7 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
         nav.addItem(new AppNavItem("Проекты", ProjectView.class, VaadinIcon.CHART_GRID.create()));
+        nav.addItem(new AppNavItem("Пользователи", UserView.class, VaadinIcon.USERS.create()));
 
         return nav;
     }

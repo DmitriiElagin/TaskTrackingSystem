@@ -110,9 +110,9 @@ public class ProjectView extends VerticalLayout {
     private void configureListBox() {
         projectListBox = new ListBox<>();
         projectListBox.setRenderer(new ComponentRenderer<>(projectDTO -> {
-            H3 h2 = new H3(projectDTO.getTitle());
-            h2.setClassName("project-list-item");
-            return h2;
+            H3 h3 = new H3(projectDTO.getTitle());
+            h3.setClassName("project-list-item");
+            return h3;
         }));
         projectListBox.addClassNames("project-list");
         projectListBox.setSizeFull();
