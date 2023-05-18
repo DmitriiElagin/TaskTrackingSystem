@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +35,13 @@ class UserServiceIntegrationTest {
         assertNotNull(userDTOS);
         assertTrue(userDTOS.length > 0);
 
+    }
+
+    @Test
+    void findAll() {
+        Collection<User> users = service.findAll();
+        assertNotNull(users);
+        assertTrue(users.size() > 0);
     }
 
     @Test
