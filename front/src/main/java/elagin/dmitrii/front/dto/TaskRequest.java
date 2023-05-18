@@ -6,13 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
-public class TaskDTO {
-    public enum TaskPriority {
-        LOW,
-        MEDIUM,
-        HIGH
-    }
-
+public class TaskRequest {
     @Min(0)
     private int id;
 
@@ -34,16 +28,16 @@ public class TaskDTO {
     @NotBlank
     private String description;
 
-    public TaskDTO() {
+    public TaskRequest() {
         priority = TaskPriority.MEDIUM;
     }
 
-    public TaskDTO(int id, String theme,
-                   String description,
-                   String type,
-                   int projectId,
-                   int responsibleId,
-                   TaskPriority priority) {
+    public TaskRequest(int id, String theme,
+                       String description,
+                       String type,
+                       int projectId,
+                       int responsibleId,
+                       TaskPriority priority) {
         this.id = id;
         this.theme = theme;
         this.type = type;
@@ -53,7 +47,7 @@ public class TaskDTO {
         this.description = description;
     }
 
-    public TaskDTO(String theme, String description, String type, int projectId, int responsibleId) {
+    public TaskRequest(String theme, String description, String type, int projectId, int responsibleId) {
         this(0, theme, description, type, projectId, responsibleId, TaskPriority.MEDIUM);
     }
 
@@ -130,8 +124,8 @@ public class TaskDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TaskDTO taskDTO = (TaskDTO) o;
-        return id == taskDTO.id && projectId == taskDTO.projectId && responsibleId == taskDTO.responsibleId && theme.equals(taskDTO.theme) && type.equals(taskDTO.type) && priority == taskDTO.priority && Objects.equals(description, taskDTO.description);
+        TaskRequest taskRequest = (TaskRequest) o;
+        return id == taskRequest.id && projectId == taskRequest.projectId && responsibleId == taskRequest.responsibleId && theme.equals(taskRequest.theme) && type.equals(taskRequest.type) && priority == taskRequest.priority && Objects.equals(description, taskRequest.description);
     }
 
     @Override

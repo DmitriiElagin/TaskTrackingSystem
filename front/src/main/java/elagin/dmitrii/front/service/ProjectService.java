@@ -59,10 +59,10 @@ public class ProjectService {
         return restTemplate.postForObject(getUrl(), request, ProjectDTO.class);
     }
 
-    public void delete(ProjectDTO project) {
-        logger.info("DELETE-запрос к REST-сервису по адресу {} для удаления проекта {}", getUrl(), project);
+    public void delete(int id) {
+        logger.info("DELETE-запрос к REST-сервису по адресу {} для удаления проекта  c id = {}", getUrl(), id);
 
-        restTemplate.delete(getUrl() + "/" + project.getId());
+        restTemplate.delete(getUrl() + "/" + id);
     }
 
 

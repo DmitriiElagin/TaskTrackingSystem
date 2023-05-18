@@ -54,7 +54,7 @@ class ProjectServiceIntegrationTest {
     public void delete() {
         ProjectDTO[] projects = getProjects();
 
-        service.delete(projects[0]);
+        service.delete(projects[0].getId());
 
         assertThrows(HttpClientErrorException.class, () ->
                 template.getForObject(service.getUrl() + "/" + projects[0].getId(), ProjectDTO.class));

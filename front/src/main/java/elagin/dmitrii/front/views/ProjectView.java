@@ -100,7 +100,7 @@ public class ProjectView extends VerticalLayout {
         dialog.setCancelText("Отмена");
         dialog.setConfirmButtonTheme("error primary");
         dialog.addConfirmListener(ev -> {
-            service.delete(event.getProject());
+            service.delete(event.getProject().getId());
             updateList();
         });
 
