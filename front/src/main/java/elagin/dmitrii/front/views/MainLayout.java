@@ -91,6 +91,7 @@ public class MainLayout extends AppLayout {
         AppNav nav = new AppNav();
         nav.addItem(new AppNavItem("Проекты", ProjectView.class, VaadinIcon.CHART_GRID.create()));
         nav.addItem(new AppNavItem("Пользователи", UserView.class, VaadinIcon.USERS.create()));
+        nav.addItem(new AppNavItem("Задачи", TaskView.class, VaadinIcon.TASKS.create()));
 
         return nav;
     }

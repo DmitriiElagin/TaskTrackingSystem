@@ -9,7 +9,6 @@ html {
     --lumo-error-color-50pct: hsla(3, 43%, 47%, 0.5);
     --lumo-error-color-10pct: hsla(3, 43%, 47%, 0.1);
     --lumo-error-text-color: hsl(3, 46%, 43%);
-
 }
 
 
@@ -17,7 +16,30 @@ html {
     color: gray;
     font-size: 20px;
     background: floralwhite;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5)
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+vaadin-grid.tasks {
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
+    background: floralwhite;
+    font-size: medium;
+}
+
+vaadin-grid.tasks H4 {
+    font-size: 16px;
+    color: #335cad;
+    font-weight: bold;
+}
+
+vaadin-grid-cell-content {
+    background: floralwhite;
+    font-size: 16px;
+}
+
+vaadin-grid.tasks::part(body-cell) {
+    color: #335cad;
+    background: floralwhite;
+
 }
 
 .project-list-item {
@@ -29,7 +51,6 @@ html {
     width: 50em;
     padding: 10px;
     border: 3px solid lightgray;
-
 }
 
 .user-panel {
@@ -67,12 +88,5 @@ html {
 }
 
 .user-list-item-content {
-
     padding: 10px;
 }
-
-
-
-
-
-

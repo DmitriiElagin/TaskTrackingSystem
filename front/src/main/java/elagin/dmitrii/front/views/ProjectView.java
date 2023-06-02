@@ -3,7 +3,7 @@ package elagin.dmitrii.front.views;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.listbox.ListBox;
@@ -110,9 +110,9 @@ public class ProjectView extends VerticalLayout {
     private void configureListBox() {
         projectListBox = new ListBox<>();
         projectListBox.setRenderer(new ComponentRenderer<>(projectDTO -> {
-            H3 h3 = new H3(projectDTO.getTitle());
-            h3.setClassName("project-list-item");
-            return h3;
+            H4 h4 = new H4(projectDTO.getTitle());
+            h4.setClassName("project-list-item");
+            return h4;
         }));
         projectListBox.addClassNames("project-list");
         projectListBox.setSizeFull();
