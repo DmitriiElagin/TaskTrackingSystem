@@ -1,7 +1,6 @@
 package elagin.dmitrii.front.views;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -47,7 +46,6 @@ public class UserRegView extends VerticalLayout {
     private void configureForm() {
         var request = new UserRequest();
         request.setEnabled(true);
-        request.setIconName(VaadinIcon.USER.name());
         request.setRole(User.UserRole.ROLE_USER);
 
         userForm = new UserForm("Регистрация пользователя", userService);

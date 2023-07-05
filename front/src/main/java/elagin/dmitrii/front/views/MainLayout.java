@@ -4,13 +4,15 @@ package elagin.dmitrii.front.views;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -18,6 +20,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import elagin.dmitrii.front.components.appnav.AppNav;
 import elagin.dmitrii.front.components.appnav.AppNavItem;
+import elagin.dmitrii.front.service.ImageService;
 import elagin.dmitrii.front.service.SecurityService;
 
 /**
@@ -26,7 +29,7 @@ import elagin.dmitrii.front.service.SecurityService;
 public class MainLayout extends AppLayout {
     private H2 viewTitle;
     private Text username;
-    private Icon userIcon;
+    private Avatar avatar;
     private final SecurityService securityService;
 
     public MainLayout(SecurityService securityService) {
@@ -42,8 +45,17 @@ public class MainLayout extends AppLayout {
 
         viewTitle = new H2();
 
-        userIcon = new Icon(VaadinIcon.USER);
-        userIcon.setColor("#335cad");
+        MenuBar menuBar = new MenuBar();
+        menuBar.setClassName("user-menu");
+        menuBar.addThemeVariants(MenuBarVariant.LUMO_TERTIARY);
+
+        avatar = new Avatar();
+
+        SubMenu subMenu = menuBar.addItem(avatar).getSubMenu();
+        subMenu.addItem("Выход").addClickListener(event -> securityService.logout());
+
+
+        avatar.setName("Гость");
 
         username = new Text("Гость");
 
@@ -52,17 +64,16 @@ public class MainLayout extends AppLayout {
         var optionalUser = securityService.getAuthenticatedUser();
         optionalUser.ifPresent(user -> {
             username.setText(user.getUsername());
+            avatar.setName(user.getFirstName() + " " + user.getLastName());
 
-            userIcon = VaadinIcon.valueOf(user.getIconName()).create();
-            userIcon.setColor("#335cad");
+            byte[] userAvatar = user.getAvatar();
+
+            if (userAvatar != null) {
+                avatar.setImageResource(ImageService.byteArrayToStreamResource(userAvatar));
+            }
         });
 
-        var btnLogout = new Button();
-        btnLogout.setIcon(VaadinIcon.EXIT.create());
-        btnLogout.addClickListener(event -> securityService.logout());
-        btnLogout.setTooltipText("Выйти");
-
-        var userPanel = new HorizontalLayout(userIcon, username, btnLogout);
+        var userPanel = new HorizontalLayout(menuBar, username);
 
         userPanel.addClassName("user-panel");
         userPanel.setAlignItems(FlexComponent.Alignment.CENTER);

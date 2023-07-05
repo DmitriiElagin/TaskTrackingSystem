@@ -3,29 +3,33 @@ package elagin.dmitrii.front.views;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.UploadI18N;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.shared.Registration;
 import elagin.dmitrii.front.dto.UserRequest;
 import elagin.dmitrii.front.entities.User;
+import elagin.dmitrii.front.service.ImageService;
 import elagin.dmitrii.front.service.UserService;
 
-import java.util.Arrays;
+import java.io.IOException;
 
 public class UserForm extends FormLayout {
     private final H2 title;
@@ -37,10 +41,7 @@ public class UserForm extends FormLayout {
     private PasswordField passwordConfirmation;
     private TextField firstName;
     private TextField lastName;
-
-    private Select<String> iconName;
-
-
+    private Avatar avaPreview;
     private RadioButtonGroup<User.UserRole> role;
     private Checkbox enabled;
     private Checkbox locked;
@@ -68,7 +69,8 @@ public class UserForm extends FormLayout {
         locked.setVisible(adminMode);
         role.setVisible(adminMode);
 
-        add(this.title, username, password, passwordConfirmation, firstName, lastName, iconName, role, enabled, locked,
+        add(this.title, username, password, passwordConfirmation, firstName,
+            lastName, role, enabled, locked, createAvatarLayout(),
             createButtonPanel(deleteButtonVisible));
 
         addClassName("user-form");
@@ -89,14 +91,63 @@ public class UserForm extends FormLayout {
         role = new RadioButtonGroup<>("Роль", User.UserRole.ROLE_USER, User.UserRole.ROLE_ADMINISTRATOR);
         enabled = new Checkbox("Доступен");
         locked = new Checkbox("Блокирован");
+    }
 
-        iconName = new Select<>();
-        iconName.setLabel("Иконка пользователя");
-        iconName.setRenderer(new ComponentRenderer<>(name -> VaadinIcon.valueOf(name).create()));
+    private HorizontalLayout createAvatarLayout() {
+        avaPreview = new Avatar();
+        avaPreview.setWidth("70px");
+        avaPreview.setHeight("70px");
+        if (userRequest != null) {
+            avaPreview.setName(userRequest.getUsername());
+            avaPreview.setAbbreviation(userRequest.getUsername().substring(0, 3));
+        } else {
+            avaPreview.setAbbreviation("usr");
+        }
 
-        iconName.setItems(Arrays.stream(VaadinIcon.values())
-            .map(Enum::name)
-            .toArray(String[]::new));
+        var layout = new HorizontalLayout(getAvaUpload(), avaPreview);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+
+        return layout;
+    }
+
+    private Upload getAvaUpload() {
+        UploadI18N u18n = new UploadI18N();
+        u18n.setDropFiles(new UploadI18N.DropFiles().setOne("Перетащите файл сюда"));
+        u18n.setAddFiles(new UploadI18N.AddFiles().setOne("Выбрать аватар..."));
+
+        UploadI18N.Error error = new UploadI18N.Error();
+        error.setFileIsTooBig("Размер файла превышает допустимый!");
+        error.setIncorrectFileType("Некорректный тип файла!");
+        u18n.setError(error);
+
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload upload = new Upload(buffer);
+        upload.setMaxFileSize(1000000);
+        upload.setI18n(u18n);
+
+
+        upload.setAcceptedFileTypes("image/*");
+        upload.addFileRejectedListener(event -> Notification.show(event.getErrorMessage(), 5000,
+            Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR));
+        upload.addFailedListener(event -> Notification.show(event.getReason().getMessage(), 5000,
+            Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR));
+
+        upload.addSucceededListener(event -> {
+            try {
+                byte[] data = ImageService.inputStreamToByteArray(buffer.getInputStream());
+                userRequest.setAvatar(data);
+                avaPreview.setImageResource(ImageService.byteArrayToStreamResource(data));
+            } catch (IOException e) {
+                Notification.show("Ошибка загрузки файла!", 5000,
+                    Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR);
+                throw new RuntimeException(e);
+            }
+        });
+
+        upload.setWidth("500px");
+
+        return upload;
     }
 
     private void configureBinder() {
@@ -110,7 +161,6 @@ public class UserForm extends FormLayout {
                     "Пользователь с таким именем уже существует!")
                 .bind(UserRequest::getUsername, UserRequest::setUsername);
         }
-
 
         binder.forField(passwordConfirmation)
             .withValidator((SerializablePredicate<String>) value ->
@@ -178,7 +228,7 @@ public class UserForm extends FormLayout {
             fireEvent(new UserForm.SaveEvent(this, userRequest));
 
         } catch (ValidationException e) {
-            System.err.println(e.getValidationErrors());
+
         }
     }
 

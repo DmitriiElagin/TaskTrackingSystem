@@ -1,11 +1,11 @@
 package elagin.dmitrii.front.dto;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
 import elagin.dmitrii.front.entities.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -22,7 +22,6 @@ public class UserRequest {
     @Size(min = 6)
     private String password;
 
-
     @NotNull
     @NotBlank
     private String passwordConfirmation;
@@ -35,36 +34,41 @@ public class UserRequest {
     @Size(max = 32)
     private String firstName;
 
-
     @NotNull
     @NotBlank
     @Size(max = 64)
     private String lastName;
 
-    private String iconName;
-
+    private byte[] avatar;
 
     private boolean enabled;
 
     private boolean locked;
 
     public UserRequest(int id, String username, String password, String passwordConfirmation, User.UserRole role,
-                       String iconName, String firstName, String lastName) {
+                       String firstName, String lastName, byte[] avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.avatar = avatar;
         this.role = role;
-        this.iconName = iconName;
         enabled = true;
     }
 
     public UserRequest() {
         enabled = true;
         role = User.UserRole.ROLE_USER;
-        iconName = VaadinIcon.USER.name();
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     public void setId(int id) {
@@ -107,10 +111,6 @@ public class UserRequest {
         this.role = role;
     }
 
-    public void setIconName(String iconName) {
-        this.iconName = Objects.requireNonNullElseGet(iconName, VaadinIcon.USER::name);
-    }
-
     public int getId() {
         return id;
     }
@@ -125,10 +125,6 @@ public class UserRequest {
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getIconName() {
-        return iconName;
     }
 
     public String getPassword() {
@@ -160,7 +156,7 @@ public class UserRequest {
     }
 
     public User toUser() {
-        return new User(id, username, password, role, iconName, firstName, lastName);
+        return new User(id, username, password, role, firstName, lastName, avatar);
     }
 
     @Override
@@ -168,11 +164,12 @@ public class UserRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRequest that = (UserRequest) o;
-        return id == that.id && enabled == that.enabled && locked == that.locked && username.equals(that.username) && password.equals(that.password) && passwordConfirmation.equals(that.passwordConfirmation) && role == that.role && firstName.equals(that.firstName) && lastName.equals(that.lastName) && iconName.equals(that.iconName);
+        return id == that.id && enabled == that.enabled && locked == that.locked && username.equals(that.username) && password.equals(that.password) && passwordConfirmation.equals(that.passwordConfirmation) && role == that.role && firstName.equals(that.firstName) && lastName.equals(that.lastName) &&
+            Arrays.equals(avatar, that.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, passwordConfirmation, role, firstName, lastName, iconName, enabled, locked);
+        return Objects.hash(id, username, password, passwordConfirmation, role, firstName, lastName, enabled, locked);
     }
 }

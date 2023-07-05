@@ -12,7 +12,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <vaadin.version>23.3.1</vaadin.version>
+        <vaadin.version>23.3.13</vaadin.version>
         <!-- this parameter is needed as spring-boot bom overwrites it -->
         <selenium.version>4.5.3</selenium.version>
     </properties>
@@ -124,6 +124,11 @@
             <artifactId>webdrivermanager</artifactId>
             <version>5.1.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
         </dependency>
     </dependencies>
 

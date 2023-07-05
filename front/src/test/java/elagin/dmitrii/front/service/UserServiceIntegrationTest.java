@@ -72,7 +72,7 @@ class UserServiceIntegrationTest {
         String username = "JohnShow";
         String password = "Pa$$word123";
         User newUser = new User(0, username, password, User.UserRole.ROLE_USER,
-                "test", "John", "Snow");
+            "John", "Snow", null);
 
         UserDTO result = service.save(newUser);
 
@@ -133,7 +133,7 @@ class UserServiceIntegrationTest {
             user = optionalUser.get();
         } else {
             user = new User(users[0].getId(), users[0].getFirstName(), "123456",
-                    User.UserRole.ROLE_USER, "test", users[0].getFirstName(), users[0].getLastName());
+                User.UserRole.ROLE_USER, users[0].getFirstName(), users[0].getLastName(), null);
             repository.save(user);
         }
         return user;

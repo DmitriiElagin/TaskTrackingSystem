@@ -1,6 +1,5 @@
 package elagin.dmitrii.front.entities;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -61,8 +61,9 @@ public class User implements UserDetails {
     @Size(max = 64)
     private String lastName;
 
-    @Column(name = "icon_name")
-    private String iconName;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] avatar;
 
     @Column
     private boolean enabled;
@@ -77,21 +78,20 @@ public class User implements UserDetails {
     private boolean credentialsExpired;
 
     public User(int id, String username, String password, UserRole role,
-                String iconName, String firstName, String lastName) {
+                String firstName, String lastName, byte[] avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
-        this.iconName = iconName;
         enabled = true;
+        this.avatar = avatar;
     }
 
     public User() {
         enabled = true;
         role = UserRole.ROLE_USER;
-        iconName = VaadinIcon.USER.name();
     }
 
     public void setId(int id) {
@@ -134,12 +134,8 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public void setIconName(String iconName) {
-        if (iconName == null) {
-            this.iconName = VaadinIcon.USER.name();
-        } else {
-            this.iconName = iconName;
-        }
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -161,10 +157,6 @@ public class User implements UserDetails {
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getIconName() {
-        return iconName;
     }
 
     @Override
@@ -192,19 +184,24 @@ public class User implements UserDetails {
         return !credentialsExpired;
     }
 
+
     @Override
     public boolean isEnabled() {
         return enabled;
     }
 
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            '}';
     }
 
     @Override
@@ -213,16 +210,17 @@ public class User implements UserDetails {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id && enabled == user.enabled && expired == user.expired && locked == user.locked
-                && credentialsExpired
-                == user.credentialsExpired && username.equals(user.username) && password.equals(user.password)
-                && role
-                == user.role && firstName.equals(user.firstName) && lastName.equals(user.lastName)
-                && iconName.equals(user.iconName);
+            && credentialsExpired
+            == user.credentialsExpired && username.equals(user.username) && password.equals(user.password)
+            && role
+            == user.role && firstName.equals(user.firstName) && lastName.equals(user.lastName) &&
+            Arrays.equals(avatar, user.avatar);
+
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, role, firstName, lastName,
-                iconName, enabled, expired, locked, credentialsExpired);
+            Arrays.hashCode(avatar), enabled, expired, locked, credentialsExpired);
     }
 }
